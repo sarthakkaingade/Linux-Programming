@@ -1,0 +1,5 @@
+# Ignore Mac OSX files
+*.DS_Store
+
+#Ignore Object files
+*.o
