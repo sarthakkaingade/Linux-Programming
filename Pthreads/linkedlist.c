@@ -14,7 +14,8 @@ struct node {
     struct node *next;
 };
 
-struct node* addnode(struct node** head, int count, char word[20]) {
+struct node* addnode(struct node** head, int count, char word[20])
+{
    struct node *current = *head;
    struct node *newNode;
    newNode = malloc(sizeof(struct node));
@@ -24,13 +25,27 @@ struct node* addnode(struct node** head, int count, char word[20]) {
 
    if (current == NULL) {
       *head = newNode;
-   }
-   else {
+   } else {
       while (current->next != NULL) {
          current = current->next;
       }
       current->next = newNode;
    }
+}
+
+void deleteList(struct node** head)
+{
+   struct node* current = *head;
+   struct node* next;
+
+   while (current != NULL)
+   {
+       next = current->next;
+       free(current);
+       current = next;
+   }
+
+   *head = NULL;
 }
 
 void PrintLinkedList(struct node *head) {
@@ -54,11 +69,13 @@ int main(int argc, char *argv[])
     char c[20], prev_char = '\0';;
     struct node *head;
     head = NULL;
+
     fd = fopen(argv[1],"rt");
     if (fd == NULL)	{
             printf("\nUnable to open the input file: %s\n",argv[1]);
             return 1;
     }
+
     while (fscanf(fd, "%s", c) != EOF) {
         if (head == NULL)   {
             prev_char = c[0];
@@ -66,11 +83,14 @@ int main(int argc, char *argv[])
         if ((prev_char != c[0]))    {
             printf("\nDatabase:\n");
             PrintLinkedList(head);
-            head = NULL;
+            deleteList(&head);
             prev_char = c[0];
         }
         addnode(&head,0,c);
     }
-    fclose(fd);
+
+    deleteList(&head);
+    fclose(fd);\
+
     return 0;
 }
