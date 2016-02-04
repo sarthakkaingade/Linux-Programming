@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
         if ((prev_char != c[0]))    {
             printf("\nDatabase:\n");
             PrintLinkedList(head);
+            head = NULL;
             prev_char = c[0];
         }
         addnode(&head,0,c);
